@@ -1,0 +1,48 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "yandex diplom",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AlinaAprel/news-explorer-api.git"
+  },
+  "keywords": [
+    "diplom",
+    "yandex",
+    "backend"
+  ],
+  "author": "Alina Aprel <alina.aprelh@mail.ru>",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.15.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "nodemon": "^2.0.6"
+  },
+  "bugs": {
+    "url": "https://github.com/AlinaAprel/news-explorer-api/issues"
+  },
+  "homepage": "https://github.com/AlinaAprel/news-explorer-api#readme",
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
+    "celebrate": "^13.0.4",
+    "core-js": "^3.8.1",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-winston": "^4.0.5",
+    "install": "^0.13.0",
+    "joi": "^17.3.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.7",
+    "normalize-port": "^1.0.0",
+    "validator": "^13.5.2",
+    "winston": "^3.3.3"
+  }
+}
