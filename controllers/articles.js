@@ -34,8 +34,9 @@ module.exports.deleteArticle = (req, res, next) => {
       if (articleOwner !== article.owner.toString()) {
         throw new UnauthorizedError('Вы не можете удалять чужие карточки!');
       }
-      return res.send({ message: 'Карточка удалена!' });
-    }).catch((err) => {
+      res.send({ message: 'Карточка удалена!' });
+    })
+    .catch((err) => {
       if (err.message === 'NotFound') {
         throw new NotFoundError('Такой карточки нет');
       }
