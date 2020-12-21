@@ -1,30 +1,27 @@
 require('dotenv').config();
 
-/* eslint-disable import/no-unresolved */
 const express = require('express');
 const { celebrate, Joi, errors } = require('celebrate');
 
 const PORT = 3000;
 const app = express();
 const mongoose = require('mongoose');
-// eslint-disable-next-line import/no-extraneous-dependencies
 const bodyParser = require('body-parser');
 const { createUser, login } = require('./controllers/users');
 const auth = require('./middlewares/auth');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
+const NotFound = require('./errors/not-found-err');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-mongoose.connect('mongodb://localhost:27017/explorerdb', {
+mongoose.connect('mongodb://localhost:27017/newsdb', {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
   useUnifiedTopology: true,
 })
-  // eslint-disable-next-line no-console
   .then(() => console.log('Mongo has started'))
-  // eslint-disable-next-line no-console
   .catch((err) => console.log(err));
 
 app.use(requestLogger);
@@ -59,7 +56,6 @@ app.use('/users/me', require('./routes/user'));
 app.use(errorLogger);
 app.use(errors());
 
-// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
   if (err.statusCode === undefined) {
     res.status(500).send({ message: `На сервере произошла ошибка ${err}` });
@@ -69,10 +65,9 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(PORT, () => {
-  // eslint-disable-next-line no-console
   console.log(`App listening on port ${PORT}`);
 });
 
-app.use('/', (req, res) => {
+app.use('/', (req, res, next) => {
   res.status(404).json({ message: 'Запрашиваемый ресурс не найден' });
 });

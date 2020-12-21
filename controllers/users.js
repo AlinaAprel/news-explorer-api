@@ -6,6 +6,7 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 const BadRequestError = require('../errors/bad-request-err');
 const NotFoundError = require('../errors/not-found-err');
 const UnauthorizedError = require('../errors/unauthorized-err');
+const ConflictError = require('../errors/conflict-err');
 
 const User = require('../models/user');
 
@@ -31,20 +32,18 @@ module.exports.createUser = (req, res, next) => {
     name, email, password,
   } = req.body;
 
+  if (password === undefined) {
+    throw new BadRequestError('Введите пароль!');
+  }
   const userpassword = password.replace(/\s/g, '');
-
   if (userpassword.length < 6) {
     throw new BadRequestError('Пароль меньше 6 символов');
-    // return res.status(400).send({ message: 'Пароль меньше 6 символов' });
   }
 
   bcrypt.hash(password, 10)
-    // eslint-disable-next-line arrow-body-style
-    .then((hash) => {
-      return User.create({
-        name, email, password: hash,
-      });
-    })
+    .then((hash) => User.create({
+      name, email, password: hash,
+    }))
     .then(() => {
       res.send({
         data: {
@@ -56,9 +55,11 @@ module.exports.createUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         throw new BadRequestError('Переданы некорректные данные');
       }
+      next(err);
       if (err.name === 'MongoError' && err.code === 11000) {
-        throw new UnauthorizedError('Пользователь уже зарегистрирован');
+        throw new ConflictError('Пользователь уже зарегистрирован');
       }
+      next(err);
     })
     .catch((err) => next(err));
 };

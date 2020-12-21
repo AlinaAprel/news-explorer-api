@@ -11,6 +11,8 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    'no-underscore-dangle': ['off', { allow: ['id'] }],
+    'no-underscore-dangle': ['off', { allow: ['_id'] }],
+    'no-console': 'off',
+    'no-unused-vars': 'off',
   },
 };
