@@ -1,5 +1,3 @@
-// ошибка 409
-
 class ConflictError extends Error {
   constructor(message) {
     super(message);
